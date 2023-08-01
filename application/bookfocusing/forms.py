@@ -4,7 +4,7 @@ from wtforms import StringField, TextAreaField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
 
-class TodoForm(FlaskForm):
+class UserForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     student_id = StringField('studentID', validators=[DataRequired()])
     passWord = TextAreaField('PassWord', validators=[DataRequired()])
