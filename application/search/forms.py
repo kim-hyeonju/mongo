@@ -9,5 +9,5 @@ class BookForm(FlaskForm):
     shelf = StringField('shelf', validators=[DataRequired()])
     block = TextAreaField('block', validators=[DataRequired()])
     writer = StringField('writer', validators=[DataRequired()])
-    loan = SelectField('loan', choices=[("False", "False"), ("True", "True")], validators=[DataRequired()])
+    loan = SelectField('loan', choices=[("대출불가능", "대출불가능"), ("대출가능", "대출가능")], validators=[DataRequired()])
     submit = SubmitField("Add todo")

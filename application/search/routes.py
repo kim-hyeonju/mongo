@@ -1,4 +1,3 @@
-
 from flask.templating import render_template_string
 from werkzeug.datastructures import RequestCacheControl
 
@@ -9,6 +8,7 @@ from application import db
 from datetime import datetime
 
 from bson import ObjectId
+from bson.json_util import dumps
 
 
 search = Blueprint(
@@ -17,6 +17,7 @@ search = Blueprint(
     template_folder="templates",
     static_folder="static"
 )
+
 
 # book db 
 @search.route("/management")
@@ -54,6 +55,7 @@ def add_book():
         form = BookForm()
     return render_template("search/crud_book.html", form=form)
 
+
 # book db update
 @search.route("/update_book/<id>", methods=['POST', 'GET'])
 def update_book(id):
@@ -86,8 +88,27 @@ def update_book(id):
         form.loan.data = search.get("loan", None)
     return render_template("search/crud_book.html", form=form)
 
+
 # book db delete
 @search.route("/delete_book/<id>")
 def delete_book(id):
     db.book_info.find_one_and_delete({"_id": ObjectId(id)})
     return redirect(url_for("search.management"))
+
+
+@search.route("/books", methods=["POST", "GET"])
+def books():
+    if request.method == 'POST':
+        form = BookForm(request.form)
+        needbook = form.title.data
+        # db.book_info.find_one({"title": txt})
+        return redirect(url_for("search.book", needbook=needbook))
+    else:
+        form = BookForm()
+    return render_template("search/please.html", form=form)
+
+
+@search.route("/book/<needbook>")
+def book(needbook):
+    needs = db.book_info.find({"title": needbook}).limit(10)
+    return render_template("search/list.html", needs=needs)
