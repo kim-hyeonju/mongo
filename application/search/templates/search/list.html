@@ -1,15 +1,15 @@
 {% extends "bookfocusing/layout.html" %}
 {% block content %}
 <div>
-    {% for todo in needs %}
+    {% for need in needs %}
         <div class="card p-1 m-3">
             <div class="card-body">
 
-            <p class="card-text">{{ todo.title }}</p>
-            <p class="card-text">{{ todo.shelf}}</p>
-            <p class="card-text">{{ todo.block}}</p>
-            <p class="card-text">{{ todo.writer}}</p>
-            <p class="card-text">{{ todo.loan}}</p>
+            <p class="card-text">{{ need.title }}</p>
+            <p class="card-text">{{ need.shelf}}</p>
+            <p class="card-text">{{ need.block}}</p>
+            <p class="card-text">{{ need.writer}}</p>
+            <p class="card-text">{{ need.loan}}</p>
 
             <a href="" class="btn btn-outline-info btn-sm">찾기</a>    
 
