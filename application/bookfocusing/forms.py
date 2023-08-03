@@ -8,5 +8,7 @@ class UserForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     student_id = StringField('studentID', validators=[DataRequired()])
     passWord = TextAreaField('PassWord', validators=[DataRequired()])
-    # completed = SelectField('Completed', choices=[("False", "False"), ("True", "True")], validators=[DataRequired()])
+    Manager = SelectField('Manager', choices=[("False", "False"), ("True", "True")], validators=[DataRequired()])
     submit = SubmitField("Add todo")
+
+

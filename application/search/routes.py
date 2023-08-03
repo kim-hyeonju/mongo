@@ -6,10 +6,16 @@ from flask import Blueprint, render_template, request, redirect, flash, url_for
 from .forms import BookForm
 from application import db
 from datetime import datetime
+from functools import wraps
 
 from bson import ObjectId
 from bson.json_util import dumps
 
+from application.bookfocusing.routes import login_required, manager_required
+
+
+login_required(wraps)
+manager_required(wraps)
 
 search = Blueprint(
     "search",
@@ -21,6 +27,8 @@ search = Blueprint(
 
 # book db 
 @search.route("/management")
+@login_required
+@manager_required
 def management():
     todos = []
     for todo in db.book_info.find().sort("date_created", -1):
@@ -32,6 +40,8 @@ def management():
 
 # 책 추가입력 creat
 @search.route("/add_book", methods=["POST", "GET"])
+@login_required
+@manager_required
 def add_book():
     if request.method == "POST":                # 입력받기
         form = BookForm(request.form)
@@ -58,6 +68,8 @@ def add_book():
 
 # book db update
 @search.route("/update_book/<id>", methods=['POST', 'GET'])
+@login_required
+@manager_required
 def update_book(id):
     if request.method == "POST":
         form = BookForm(request.form)
@@ -90,7 +102,10 @@ def update_book(id):
 
 
 # book db delete
+@login_required
+@manager_required
 @search.route("/delete_book/<id>")
+@login_required
 def delete_book(id):
     db.book_info.find_one_and_delete({"_id": ObjectId(id)})
     return redirect(url_for("search.management"))
