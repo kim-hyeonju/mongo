@@ -10,4 +10,6 @@ class BookForm(FlaskForm):
     block = TextAreaField('block', validators=[DataRequired()])
     writer = StringField('writer', validators=[DataRequired()])
     loan = SelectField('loan', choices=[("대출불가능", "대출불가능"), ("대출가능", "대출가능")], validators=[DataRequired()])
+    flag = SelectField('loan', choices=[("1", "1"), ("0", "0")], validators=[DataRequired()])
     submit = SubmitField("Add todo")
+

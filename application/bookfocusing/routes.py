@@ -10,6 +10,7 @@ from bson import ObjectId
 import bcrypt
 
 
+
 # 관리자 권한
 def manager_required(f):
     @wraps(f)
@@ -34,6 +35,7 @@ def login_required(f):
     return wrap
 
 
+        
 # 블루프린트로 페이지 관리
 bookfocusing = Blueprint(
     "bookfocusing",
@@ -46,7 +48,7 @@ bookfocusing = Blueprint(
 # 메인 페이지
 @bookfocusing.route("/main")
 def main():
-    return render_template("bookfocusing/main.html", session=session)
+    return render_template("bookfocusing/main.html")
 
 
 # 회원관리 페이지 (관리자만 가능)
@@ -147,7 +149,7 @@ def login():
         }
 
         user_login = db.user_info.find_one({"studentID": userin['student_ID']})
-        
+
         if user_login:
             if bcrypt.hashpw(userin['password'], user_login['PassWord']) == user_login['PassWord']:
                 del userin['password']

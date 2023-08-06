@@ -13,9 +13,12 @@ from bson.json_util import dumps
 
 from application.bookfocusing.routes import login_required, manager_required
 
+import time
+from threading import Timer
 
 login_required(wraps)
 manager_required(wraps)
+
 
 search = Blueprint(
     "search",
@@ -25,7 +28,7 @@ search = Blueprint(
 )
 
 
-# book db 
+# book db
 @search.route("/management")
 @login_required
 @manager_required
@@ -57,6 +60,7 @@ def add_book():
             "block": book_block,
             "writer": book_writer,
             "loan": book_loan,
+            "flag": '0',
             "date_created": datetime.utcnow()
         })
         flash("Todo successfully added", "success")         # 성공했다는 flask창
@@ -85,6 +89,7 @@ def update_book(id):
             "block": book_block,
             "writer": book_writer,
             "loan": book_loan,
+            "flag": '0',
             "date_created": datetime.utcnow()
         }})
         flash("Todo successfully updated", "success")
@@ -125,5 +130,15 @@ def books():
 
 @search.route("/book/<needbook>")
 def book(needbook):
-    needs = db.book_info.find({"title": needbook}).limit(10)
+    # needs = db.book_info.find({"title": needbook}).limit(10)   
+    needs = []
+    for need in db.book_info.find({"title": needbook}):
+        need["_id"] = str(need["_id"])
+        needs.append(need)
     return render_template("search/list.html", needs=needs)
+
+
+@search.route("/flag/<id>")
+def flag(id):
+    db.book_info.find_one_and_update({"_id": ObjectId(id)}, {"$set": {"flag": '1'}})
+    return 

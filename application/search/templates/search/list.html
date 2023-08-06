@@ -11,7 +11,7 @@
             <p class="card-text">{{ need.writer}}</p>
             <p class="card-text">{{ need.loan}}</p>
 
-            <a href="" class="btn btn-outline-info btn-sm">찾기</a>    
+            <a href="{{url_for('search.flag', id=need._id) }}" class="btn btn-outline-info btn-sm">찾기</a>    
 
         </div>
     </div>
